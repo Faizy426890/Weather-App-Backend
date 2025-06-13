@@ -14,26 +14,17 @@ import { deepseek } from './src/routes/games.js';
 import { session } from './src/routes/session.js';
 
 dotenv.config();
-
-// Connect to MongoDB
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// CORS
-const corsOptions = {
-  origin: '*',
-};
-app.use(cors(corsOptions));
+// Middleware
+app.use(cors({ origin: '*' }));
 
-// Raw parser for Clerk webhook (MUST come before express.json)
-app.use('/api/webhook/clerk', bodyParser.raw({ type: '*/*' }));
-
-// JSON body parser
+app.use('/api/webhook/clerk', clerkWebhook);
 app.use(express.json());
 
-// Health check on root
+// Health check route
 app.get('/', (req, res) => {
   const state = mongoose.connection.readyState;
   const statusMap = {
@@ -45,7 +36,7 @@ app.get('/', (req, res) => {
   res.send(`Server is running!<br>MongoDB status: <strong>${statusMap[state]}</strong>`);
 });
 
-// API Routes
+// Routes
 app.use('/api', setRole);
 app.use('/api', tournament);
 app.use('/api', registerCoach);
@@ -53,7 +44,6 @@ app.use('/api', deepseek);
 app.use('/api', session);
 app.use('/api', clerkWebhook);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
-});
+// ❌ Don't call app.listen()
+// ✅ Export the handler for Vercel
+export default app;
