@@ -21,8 +21,8 @@ const app = express();
 // Middleware
 app.use(cors({ origin: '*' }));
 
-app.use('/api/webhook/clerk', clerkWebhook);
 app.use(express.json());
+app.use('/api/webhook/clerk', clerkWebhook);
 
 // Health check route
 app.get('/', (req, res) => {
