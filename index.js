@@ -2,9 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 
-import connectDB from './src/Connection/DBconnect.js';
+import connectDB from './src/Connection/DBconnect.js'; 
 
 import { clerkWebhook } from './src/routes/userRoute.js';
 import { registerCoach } from './src/routes/coach.js';

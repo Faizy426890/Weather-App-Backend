@@ -54,7 +54,6 @@ router.post(
           });
           isCoach = 'false';
         }
-         await sendWelcomeEmail(email, userData.firstName || 'there');
         await User.findOneAndUpdate(
   { clerkId: userData.id },
   {

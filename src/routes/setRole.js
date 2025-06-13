@@ -14,7 +14,6 @@ router.post('/set-role', async (req, res) => {
   }
 
   try {
-    // Update your local DB
     const existingUser = await User.findOne({ clerkId: userId });
 
     if (!existingUser) {
